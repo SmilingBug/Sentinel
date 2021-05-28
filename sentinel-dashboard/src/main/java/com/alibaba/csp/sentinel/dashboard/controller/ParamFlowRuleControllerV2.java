@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.csp.sentinel.dashboard.controller.v2;
+package com.alibaba.csp.sentinel.dashboard.controller;
 
 import com.alibaba.csp.sentinel.dashboard.auth.AuthAction;
 import com.alibaba.csp.sentinel.dashboard.auth.AuthService.PrivilegeType;
@@ -38,7 +38,7 @@ import java.util.List;
  * @since 0.2.1
  */
 @RestController
-@RequestMapping(value = "/v2/paramFlow")
+@RequestMapping(value = "/paramFlow")
 public class ParamFlowRuleControllerV2 {
 
     private final Logger logger = LoggerFactory.getLogger(ParamFlowRuleControllerV2.class);
