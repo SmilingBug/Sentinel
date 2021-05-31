@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.csp.sentinel.dashboard.rule.nacos;
+package com.alibaba.csp.sentinel.dashboard.rule.nacos.flow;
 
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.ParamFlowRuleEntity;
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.FlowRuleEntity;
 import com.alibaba.csp.sentinel.dashboard.rule.DynamicRuleProvider;
+import com.alibaba.csp.sentinel.dashboard.rule.nacos.NacosConfigUtil;
+import com.alibaba.csp.sentinel.dashboard.rule.nacos.NacosDataSourceProperties;
 import com.alibaba.csp.sentinel.datasource.Converter;
 import com.alibaba.csp.sentinel.util.StringUtil;
 import com.alibaba.nacos.api.config.ConfigService;
@@ -32,23 +34,23 @@ import java.util.List;
  * @author Eric Zhao
  * @since 1.4.0
  */
-@Component("paramFlowRuleNacosProvider")
-public class ParamFlowRuleNacosProvider implements DynamicRuleProvider<List<ParamFlowRuleEntity>> {
+@Component("flowRuleNacosProvider")
+public class FlowRuleNacosProvider implements DynamicRuleProvider<List<FlowRuleEntity>> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ParamFlowRuleNacosProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(FlowRuleNacosProvider.class);
 
     @Autowired
     private NacosDataSourceProperties nacosDataSourceProperties;
     @Autowired
     private ConfigService configService;
     @Autowired
-    private Converter<String, List<ParamFlowRuleEntity>> converter;
+    private Converter<String, List<FlowRuleEntity>> converter;
 
     @Override
-    public List<ParamFlowRuleEntity> getRules(String appName) throws Exception {
-        String rules = configService.getConfig(appName + NacosConfigUtil.PARAM_FLOW_DATA_ID_POSTFIX,
+    public List<FlowRuleEntity> getRules(String appName) throws Exception {
+        String rules = configService.getConfig(appName + NacosConfigUtil.FLOW_DATA_ID_POSTFIX,
                 nacosDataSourceProperties.getGroupId(), 3000);
-        logger.info("The app {} pull paramFlowRuleEntity config from nacos: {}", appName, rules);
+        logger.info("The app {} pull flowRuleEntity config from nacos: {}", appName, rules);
 
         if (StringUtil.isEmpty(rules)) {
             return new ArrayList<>();

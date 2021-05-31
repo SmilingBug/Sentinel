@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.csp.sentinel.dashboard.rule.nacos;
+package com.alibaba.csp.sentinel.dashboard.rule.nacos.system;
 
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.DegradeRuleEntity;
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.SystemRuleEntity;
 import com.alibaba.csp.sentinel.dashboard.rule.DynamicRulePublisher;
+import com.alibaba.csp.sentinel.dashboard.rule.nacos.NacosConfigUtil;
+import com.alibaba.csp.sentinel.dashboard.rule.nacos.NacosDataSourceProperties;
 import com.alibaba.csp.sentinel.datasource.Converter;
 import com.alibaba.csp.sentinel.util.AssertUtil;
 import com.alibaba.fastjson.JSON;
@@ -32,10 +34,10 @@ import java.util.List;
  * @author Eric Zhao
  * @since 1.4.0
  */
-@Component("degradeRuleNacosPublisher")
-public class DegradeRuleNacosPublisher implements DynamicRulePublisher<List<DegradeRuleEntity>> {
+@Component("systemRuleNacosPublisher")
+public class SystemRuleNacosPublisher implements DynamicRulePublisher<List<SystemRuleEntity>> {
 
-    private static final Logger logger = LoggerFactory.getLogger(DegradeRuleNacosPublisher.class);
+    private static final Logger logger = LoggerFactory.getLogger(SystemRuleNacosPublisher.class);
 
     @Autowired
     private NacosDataSourceProperties nacosDataSourceProperties;
@@ -43,16 +45,16 @@ public class DegradeRuleNacosPublisher implements DynamicRulePublisher<List<Degr
     @Autowired
     private ConfigService configService;
     @Autowired
-    private Converter<List<DegradeRuleEntity>, String> converter;
+    private Converter<List<SystemRuleEntity>, String> converter;
 
     @Override
-    public void publish(String app, List<DegradeRuleEntity> rules) throws Exception {
+    public void publish(String app, List<SystemRuleEntity> rules) throws Exception {
         AssertUtil.notEmpty(app, "app name cannot be empty");
         if (rules == null) {
             return;
         }
-        logger.info("The app {} push degradeRuleEntity to nacos: {}", app, JSON.toJSONString(rules));
-        configService.publishConfig(app + NacosConfigUtil.DEGRADE_DATA_ID_POSTFIX,
+        logger.info("The app {} push systemRuleEntity to nacos: {}", app, JSON.toJSONString(rules));
+        configService.publishConfig(app + NacosConfigUtil.SYSTEM_DATA_ID_POSTFIX,
                 nacosDataSourceProperties.getGroupId(), converter.convert(rules));
     }
 }
